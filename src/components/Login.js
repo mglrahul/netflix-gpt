@@ -1,20 +1,19 @@
 import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    updateProfile
-  } from "firebase/auth";
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import Header from "./Header";
 import { formValidation } from "../utils/validate";
 import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { AVATAR_URL, LOGIN_BG_IMAGE } from "../utils/constant";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [validationMessage, setValidationMessage] = useState(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const nameRef = useRef(null);
@@ -59,24 +58,26 @@ const Login = () => {
           // Signed up
           const user = userCredential.user;
           updateProfile(user, {
-            displayName: nameRef?.current?.value, photoURL: "https://avatars.githubusercontent.com/u/7267407?v=4"
-          }).then(() => {
-            // Profile updated!
-            const { uid, email, displayName, photoURL } = auth.currentUser;
-            dispatch(
+            displayName: nameRef?.current?.value,
+            photoURL: AVATAR_URL,
+          })
+            .then(() => {
+              // Profile updated!
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(
                 addUser({
-                    uid: uid,
-                    email: email,
-                    displayName: displayName,
-                    photoURL: photoURL,
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
                 })
-            );
-            console.log("signin", user);
-            navigate("/browse");
-          }).catch((error) => {
-            // An error occurred
-            console.log("profile pic update error", error);
-          });
+              );
+              console.log("signin", user);
+            })
+            .catch((error) => {
+              // An error occurred
+              console.log("profile pic update error", error);
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -95,9 +96,6 @@ const Login = () => {
           // Signed in
           const user = userCredential.user;
           console.log("signin", user);
-          navigate("/browse");
-          
-          // ...
         })
         .catch((error) => {
           const errorCode = error?.code;
@@ -117,7 +115,7 @@ const Login = () => {
       <div className="absolute">
         <Header />
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/dae1f45f-c2c5-4a62-8d58-6e1b0c6b2d8e/6d1fb8a4-5844-42a4-9b01-1c6c128acf19/IN-en-20240827-TRIFECTA-perspective_WEB_c292a608-cdc6-4686-8dc8-405bfcf753af_medium.jpg"
+          src={LOGIN_BG_IMAGE}
           alt="background"
         />
       </div>
