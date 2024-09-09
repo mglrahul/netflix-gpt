@@ -60,11 +60,11 @@ const Header = () => {
   };
 
   return (
-    <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex  justify-between">
-      <img className="w-40" src={LOGO} alt="logo" />
+    <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 justify-between flex flex-col md:flex-row bg-black">
+      <img className="w-40 mx-auto md:mx-0" src={LOGO} alt="logo" />
       {loggedInUser && (
-        <div className="flex p-2 content-baseline">
-          <select
+        <div className="flex p-2 content-baseline justify-between">
+          {enableSearchGPT && <select
             className="bg-gray-900 p-2 m-2 text-white rounded-lg"
             onChange={handleAppLanguage}
           >
@@ -73,7 +73,7 @@ const Header = () => {
                 {lang.label}
               </option>
             ))}
-          </select>
+          </select>}
           <button
             className="p-3 m-1 mx-2 bg-purple-700 text-white rounded-lg"
             onClick={handleSearchGPT}
@@ -81,7 +81,7 @@ const Header = () => {
             {enableSearchGPT ? "Home" : "Search GPT"}
           </button>
           <img
-            className="w-12 h-12"
+            className="hidden md:block w-12 h-12"
             src={loggedInUser?.photoURL}
             alt="user icon"
           />
