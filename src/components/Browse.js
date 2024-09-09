@@ -15,7 +15,6 @@ const Browse = () => {
   usePopularMovies();
   useTopRatedMovies();
   useUpcomingMovies();
-  console.log("enableSearchGPT", enableSearchGPT)
 
   return (
     <div>
